@@ -15,6 +15,11 @@ window.onload = function () {
 
     document.getElementById("ProjectID").style.display = 'none';
     document.getElementById("btnvaseID").style.display = 'none';
+    document.getElementById("name").style.display = 'flex';
+    document.getElementById("phone").style.display = 'flex';
+    document.getElementById("slctime").style.display = 'flex';
+    document.getElementById("btnsubmt").style.display = 'flex';
+
   document.getElementById("btnconn").style.display = 'flex';
    
  
@@ -24,6 +29,13 @@ window.onload = function () {
    // console.log(baseurl);
 
    removolddate(ProjectID);
+
+  }
+  else{
+    document.getElementById("name").style.display = 'none';
+    document.getElementById("phone").style.display = 'none';
+    document.getElementById("slctime").style.display = 'none';
+    document.getElementById("btnsubmt").style.display = 'none';
 
   }
 
