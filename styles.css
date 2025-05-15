@@ -10,14 +10,25 @@ h1 {
         color: rgb(46, 14, 161);
     }
 
+    
+h2 {
+  text-align: center;
+      color: rgb(46, 14, 161);
+  }
+  
+h3 {
+  text-align: center;
+      color: rgb(46, 14, 161);
+  }
 
+  /*
 @font-face {
     font-family: 'Product Sans';
     font-style: normal;
     font-weight: 400;
     src: local('Open Sans'), local('OpenSans'), url(https://fonts.gstatic.com/s/productsans/v5/HYvgU2fE2nRJvZ5JFAumwegdm0LZdjqr5-oayXSOefg.woff2) format('woff2');
   }
-
+*/
 
   .label {
     font-family: Product Sans;
@@ -26,7 +37,7 @@ h1 {
   }
 
   .label1{
-    font-size: 3vw;
+    font-size: 20px;
     display: block; 
     width: 100%;
     color: lightgray;
@@ -41,7 +52,7 @@ h1 {
 
   .label2{
     color: gray;
-    font-size: 2vw;
+    font-size: 20px;
   }
   .label3{
     width: 100%;
@@ -52,7 +63,7 @@ h1 {
     overflow: hidden;
     border: 2px solid blue;
     padding: 0px 10px;
-    font-size: 2.5vw;
+    font-size: 20px;
     color: black;
   
    
@@ -61,8 +72,8 @@ h1 {
 
 
   body{
-    width: 80%;
-    height: 100vh;    
+    width: 90%;
+    
     justify-content: center;
     text-align: center;
     display:flex;
@@ -101,7 +112,7 @@ h1 {
     overflow: hidden;
     border: 1px solid rgba(0,0,0,0.2);
     padding: 0px 10px;
-    font-size: 2.5vw;
+    font-size: 20px;
     color: #444;
     text-align: center;
 }
@@ -115,7 +126,7 @@ h1 {
     overflow: hidden;
     border: 1px solid rgba(0,0,0,0.2);
     padding: 0px 10px;
-    font-size: 2.5vw;
+    font-size: 20px;
     color: #444;
 }
 
@@ -126,7 +137,7 @@ h1 {
     outline: none;
     background: rgb(0, 119, 255);
     color: #FFF;
-    font-size: 2.5vw;
+    font-size:  20px;
     font-weight: bold;
     cursor: pointer;
     
@@ -145,7 +156,7 @@ h1 {
 text-transform: capitalize;
   text-decoration: none;
   display: inline-block;
-  font-size: 2.5vw;
+  font-size:  20px;
   margin:5px;
   cursor: pointer;
   width: 100%;
@@ -164,7 +175,7 @@ text-transform: capitalize;
 }
 
 ::placeholder{
-    font-size: 2.5vw;
+    font-size:  20px;
 }
 
 .alert{
@@ -173,7 +184,7 @@ text-transform: capitalize;
     padding: 10px 20px;
     border-radius: 5px;
     text-align: center;
-    font-size: 2.5vw;
+    font-size: 4vw;
     font-weight: 900;
     display: none;
 }
@@ -190,7 +201,7 @@ text-transform: capitalize;
 select {
   width: 100%;
 
-  font: 400 2.5vw/1.3 sans-serif;
+  font: 400 16px/1.3 sans-serif;
   -webkit-appearance: none;
   appearance: none;
   color: var(--baseFg);

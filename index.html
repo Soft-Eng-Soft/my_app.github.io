@@ -16,12 +16,20 @@
 
 <body>
 <center>
+  
   <h1 id="error"></h1>
   <h1>ENG Soft</h1>
   <span class="label label1">Dental Clinic</span>
-  <br></br>
+ 
 
+  <div id="fireconn" class="inputBox">
+    <input type="text" id="ProjectID" name="ProjectID" placeholder="Project ID">
+  <!-- <input type="text" id="Dr_Name" name="Dr_Name" placeholder="Your Name"> -->
 
+    <button class="button save" id="btnvaseID" onclick='saveID()'>حفظ</button>
+  </div>
+ 
+ 
 
   <div >
 
@@ -67,8 +75,12 @@
 
   </div>
 
-
   <br></br>
+  <div >
+    <h2>قائمة الحجز ليوم</h2>
+    <h3 id="txtdate"></h3>
+  </div>
+ 
 
 
   <div id="try">
@@ -82,6 +94,10 @@
 
     <br></br>
     <br></br>
+
+    <div id="btnconn" class="inputBox">
+      <button  class="button save" onclick='showfire()'>تغيير الرابط</button>
+    </div>
         <br></br>
 
 </center>
