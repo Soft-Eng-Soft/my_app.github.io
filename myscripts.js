@@ -7,7 +7,8 @@ window.onload = function () {
 
 
   var d = new Date();
-   tody = d.getDate()  + "-" + (d.getMonth()+1) + "-" + d.getFullYear();
+
+  tody = d.toISOString().split('T')[0];
 
   document.getElementById("txtdate").innerHTML = tody;
 
@@ -42,20 +43,7 @@ window.onload = function () {
  // var baseurl = "https://app-db-df0f1-default-rtdb.asia-southeast1.firebasedatabase.app/Dr-Marthad.json";
   GetName(baseurl);  
 
-  /*
-  var xmlHttp = new XMLHttpRequest();
-  var UpdateVisitsURL = "https://iotcar-2767a.firebaseio.com/FirebaseHomeVisits.json";
-
-  xmlHttp.open("GET", UpdateVisitsURL, false);
-  xmlHttp.send(null);
-  var visits = xmlHttp.responseText;
-  visits++;
-
-  var newxmlHttp = new XMLHttpRequest();
-  newxmlHttp.open("PUT", UpdateVisitsURL, true);
-  newxmlHttp.setRequestHeader('Content-type', 'text/plain;');
-  newxmlHttp.send(visits);
-  */
+ 
 }
 
 
@@ -93,21 +81,21 @@ function showfire(){
 function removolddate(Url){
 
  // console.log(Url + ".json");
-  var xmlHttp = new XMLHttpRequest();
+ try{
+ var xmlHttp = new XMLHttpRequest();
 
   xmlHttp.open("GET", Url + ".json", false); // false for synchronous request
 
   xmlHttp.send(null);
 
-// console.log(xmlHttp.responseText);
-
 var obj = JSON.parse(xmlHttp.responseText);
 
-var dv = []
 for (var k in obj) {
-  dv.push(k);
- // console.log(k);
-  if (k !== tody)
+
+  var tdate = new Date(k);
+  var tdy = new Date(tody);
+  // console.log(k);
+  if (tdate < tdy)
   {
     xmlHttp.open("DELETE", Url +"/" + k + ".json", false); // false for synchronous request
     xmlHttp.send(null);
@@ -115,9 +103,18 @@ for (var k in obj) {
   }
   
 }
+ }
+ catch
+ {
+document.getElementById("error").innerHTML = "خطأ بالاتصال بالانترنت"
+ }
+ 
 
   //console.log(Url.replace(ProjectID,""));
 }
+
+
+
 
 function GetName(Url) {
   var xmlHttp = new XMLHttpRequest();
@@ -125,8 +122,17 @@ function GetName(Url) {
   xmlHttp.open("GET", Url, false); // false for synchronous request
 
   xmlHttp.send(null);
+
  
+  
+if (xmlHttp.responseText === "null"){
+ // console.log(xmlHttp.responseText);
+  return;
+} 
+
   var obj = JSON.parse(xmlHttp.responseText);
+
+  
 
   if(AppID == 0 && obj.length > 0)
   {
@@ -146,14 +152,22 @@ function GetName(Url) {
   }
 
 
-  const mydv = document.getElementById('mydiv');
- 
+  const mydv = document.getElementById('mydiv'); 
 
   while(mydv.firstChild){
     mydv.removeChild(mydv.lastChild);
   }
- // val.sort();
-  val.sort();
+
+ for (let i = 0; i < val.length ; i++) {
+   if (val[i] !== null)
+   {
+      val[i] = val[i].replace(':','');
+   }
+
+ }
+val.sort();
+ // val.sort(function(a, b){return b - a});
+  
   var appary = new Array();
   var nameary = new Array();
   var phonary = new Array();
@@ -162,46 +176,52 @@ function GetName(Url) {
   for (let i = 0; i < val.length ; i++) {
     if (val[i] !== null)
     {
+
       var myary = (val[i]).split(";");
       appary.push(myary[0]);
       nameary.push(myary[1]);
       phonary.push(myary[2]);
     
- 
     }    
   }
 
-  appary.sort(function(a,b){
-    return a-b;
-  });
 
 
+  for (let i = 0; i < nameary.length; i++) {
 
-var slctary = new Array();
-var tm = document.getElementById("slctime");
-    
-for (let k=0; k< tm.options.length; k++)
-{
-  slctary.push(tm.options[k].innerHTML);
- // console.log(appary[k]);
-}
-
-
-//console.log(appary.length);
-
-  for (let i = 0; i < appary.length ; i++) {
-   // console.log(nameary[i]);   
     const a = document.createElement('a');
     a.setAttribute('class', 'button');
-   
-a.innerHTML = nameary[i]  + " ......  " +  slctary[i]   ;
+
+    const s1 = document.createElement('span');
+    const s2 = document.createElement('span');
+
+    s1.setAttribute('class', 'span span1');
+    var aptm="";
+
+ aptm= appary[i].replace("00", ":00");
+    aptm = aptm.replace("30", ":30");
+   // aptm = aptm.replace(" ", "-");
+
+    s1.innerHTML = nameary[i];
+    s2.innerHTML = aptm;
+
+
+
+  
+    a.appendChild(s2);
+  a.appendChild(s1);
+  
+    a.title = phonary[i];
+
 
     a.addEventListener('click', event => {
-      var appid = event.target.id;
-      var nm = event.target.innerHTML;
-      var phn = event.target.title;
 
-      document.getElementById("slctime").value = appid;
+     // var btn = event.target;
+      var appid = event.target.lastChild.innerHTML;
+      var nm = event.target.firstChild.innerHTML;
+      var phn = event.target.title;
+console.log(appid);
+      document.getElementById("slctime").value = 5;
      document.getElementById("name").value = nm;
      document.getElementById("phone").value =  phn;
     
@@ -223,13 +243,13 @@ a.innerHTML = nameary[i]  + " ......  " +  slctary[i]   ;
   var name = document.getElementById("name").value;
   var phone = document.getElementById("phone").value;
   var tim = document.getElementById("slctime");
-  var tmval = tim.value;
+  var tmval = tim.options[tim.selectedIndex].text;
 
-var data = tmval + ";" + name + ";" + phone ;
+var data = tmval + ";" + name.replace(';','') + ";" + phone.replace(';','') ;
 
 var baseurl = ProjectID  + "/" + tody  + "/";
 
-console.log(baseurl);
+//console.log(tmval);
 
  // var baseurl = "https://app-db-df0f1-default-rtdb.asia-southeast1.firebasedatabase.app/Dr-Marthad/" ;
 
