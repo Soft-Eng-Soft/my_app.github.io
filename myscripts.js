@@ -261,7 +261,7 @@ val.sort();
   var tim = document.getElementById("slctime");
   var tmval = tim.options[tim.selectedIndex].text;
 
-var data = tmval + ";" + name + ";" + phone.replace(';','') ;
+var data = name + ";" +  tmval + ";" + phone.replace(';','') ;
 
 var baseurl = ProjectID  + "/" + tody  + "/";
 
