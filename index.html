@@ -1,114 +1,181 @@
 <!DOCTYPE html>
-<html>
+<html lang="ar" dir="rtl">
 
 <head>
-  <html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="مركز طب الأسنان">
+  <meta name="theme-color" content="#3498db">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>مركز طب الأسنان</title>
+  <link rel="stylesheet" href="./styles-mobile.css">
+  <meta http-equiv="refresh" content="300">
+  <script src="myscripts-modern.js"></script>
+  <!-- PWA Support -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="icon.png">
+  <!-- Theme Toggle Script -->
+  <script>
+    // Function to set theme
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      // Update status bar color for mobile devices
+      updateStatusBarColor(theme);
+    }
 
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Dental App</title>
-    <link rel="stylesheet" href="./styles.css">
-    <meta http-equiv="refresh" content="300">
-    <script src="myscripts.js"></script>
+    // Function to update status bar color based on theme
+    function updateStatusBarColor(theme) {
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+      if (metaThemeColor) {
+        metaThemeColor.setAttribute('content', theme === 'dark' ? '#16213e' : '#3498db');
+      }
+    }
 
+    // Function to toggle theme
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      setTheme(newTheme);
+    }
 
-  </head>
+    // Load saved theme on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      setTheme(savedTheme);
+
+      // Check for mobile device and adjust viewport
+      if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        const viewport = document.querySelector('meta[name="viewport"]');
+        if (viewport) {
+          viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
+        }
+      }
+    });
+
+    // Prevent zoom on double tap for iOS
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function (event) {
+      const now = (new Date()).getTime();
+      if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+      }
+      lastTouchEnd = now;
+    }, false);
+
+    // Handle orientation changes
+    window.addEventListener('orientationchange', function() {
+      // Adjust UI based on orientation if needed
+      setTimeout(function() {
+        // Force a repaint to fix potential layout issues
+        document.body.style.display = 'none';
+        document.body.offsetHeight; // Trigger a reflow
+        document.body.style.display = '';
+      }, 100);
+    });
+  </script>
+</head>
 
 <body>
-<center>
-    <div id="btnconn" >
-      <button  class="button save" onclick='showfire()' >+</button>
-    </div>
+  <!-- Theme Toggle Button -->
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="تبديل الوضع">
+    <span id="theme-icon">🌙</span>
+  </button>
+
+  <!-- Add Button -->
+  <div id="btnconn">
+    <button class="button save" onclick='showfire()' aria-label="إضافة">+</button>
+  </div>
+
+  <!-- Error Message -->
   <h1 id="error"></h1>
-  <span class="label label2">ENG Soft</span>
-  <span class="label label1">Dental Clinic</span>
- 
 
-  <div id="fireconn" class="inputBox">
-    <input type="text" id="ProjectID" name="ProjectID" placeholder="Project ID">
-  <!-- <input type="text" id="Dr_Name" name="Dr_Name" placeholder="Your Name"> -->
+  <div class="container">
+    <!-- Header Section -->
+    <div class="header-section">
+      <span class="label label2">ENG Soft</span>
+      <span class="label label1">مركز طب الأسنان</span>
+    </div>
 
-    <button class="button" id="btnvaseID" onclick='saveID()'>حفظ</button>
+    <!-- Project ID Input (Hidden by default) -->
+    <div id="fireconn" class="inputBox">
+      <input type="text" id="ProjectID" name="ProjectID" placeholder="معرّف المشروع" aria-label="معرّف المشروع">
+      <button class="button" id="btnvaseID" onclick='saveID()'>حفظ</button>
+    </div>
+
+    <!-- Section Title -->
+    <div class="section-title">
+      <span class="label label3">قائمة الحجز اليوم</span>
+    </div>
+
+    <!-- Date Display -->
+    <div class="date-display">
+      <span class="label label3" id="txtdate"></span>
+    </div>
+
+    <!-- Appointments List -->
+    <div id="try">
+      <div id="mydiv"></div>
+    </div>
+
+    <!-- Form Container -->
+    <div class="form-container">
+      <div class="alert">تم إرسال رسالتك بنجاح</div>
+
+      <div class="inputBox">
+        <input type="text" id="name" placeholder="الاسم" aria-label="الاسم" />
+      </div>
+
+      <div class="inputBox">
+        <input type="number" pattern="[0-9]*" inputmode="numeric" id="phone" placeholder="رقم الهاتف" aria-label="رقم الهاتف" />
+      </div>
+
+      <div class="custom-select">
+        <select id="slctime" aria-label="وقت الحجز">
+          <option value="0">1:00 PM</option>
+          <option value="1">1:30 PM</option>
+          <option value="2">2:00 PM</option>
+          <option value="3">2:30 PM</option>
+          <option value="4">3:00 PM</option>
+          <option value="5">3:30 PM</option>
+          <option value="6">4:00 PM</option>
+          <option value="7">4:30 PM</option>
+          <option value="9">5:00 PM</option>
+          <option value="10">5:30 PM</option>
+          <option value="11">6:00 PM</option>
+          <option value="12">6:30 PM</option>
+          <option value="11">7:00 PM</option>
+          <option value="12">7:30 PM</option>
+          <option value="13">8:00 PM</option>
+          <option value="14">8:30 PM</option>
+          <option value="15">9:00 PM</option>
+          <option value="16">9:30 PM</option>
+        </select>
+      </div>
+
+      <div class="inputBox">
+        <button type="submit" id="btnsubmt" onclick="Save_Name()">حفظ</button>
+      </div>
+    </div>
   </div>
 
-  <div >
-    <span  class="label label3">قائمة الحجز ليوم</span>
-   
-  </div>
-  <br>
-  <span  class="label label3" id="txtdate"></span>
-  <br>
-  <div id="try">
-    <div id="mydiv" style="width: 100%;">
-    </div>
-
-  <div >
-
-    <div class="alert">Your message sent</div>
-
-    <div class="inputBox">
-      <input type="text" id="name" placeholder="الاسم" />
-    </div>
-
-    <div class="inputBox">
-      <input  type="number"   pattern="[0-9]*" inputmode="numeric" id="phone" placeholder="الهاتف" />
-    </div>
-   
-    
-    <div  class="custom-select" >
-      <select id="slctime" >
-        <option value="0">1:00 PM</option>
-        <option value="1">1:30 PM</option>
-        <option value="2">2:00 PM</option>
-        <option value="3">2:30 PM</option>
-        <option value="4">3:00 PM</option>
-        <option value="5">3:30 PM</option>
-        <option value="6">4:00 PM</option>
-        <option value="7">4:30 PM</option>
-        <option value="9">5:00 PM</option>
-        <option value="10">5:30 PM</option>
-        <option value="11">6:00 PM</option>
-        <option value="12">6:30 PM</option>
-        <option value="11">7:00 PM</option>
-        <option value="12">7:30 PM</option>        
-        <option value="13">8:00 PM</option>
-        <option value="14">8:30 PM</option>
-        <option value="15">9:00 PM</option>
-        <option value="16">9:30 PM</option>
-      <!--  <option value="17">10:00 PM</option>-->
-
-      </select>
-    </div>
-
- 
-
-    <div class="inputBox">
-      <button type="submit" id = "btnsubmt" onclick="Save_Name()">حفظ</button>
-    </div>
-    <!--
- <div class="inputBox">
-      <button type="submit" id = "btndelet" onclick="Delete_Name()">حذف</button>
-    </div>
-  </div>
--->
-  <br></br>
- 
-
-
- 
-
-
-
-
-    <br></br>
-    <br></br>
-
-  
-        <br></br>
-
-</center>
-
-  
+  <!-- Service Worker Registration for PWA -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(function(registration) {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          })
+          .catch(function(err) {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+      });
+    }
+  </script>
 </body>
 
 </html>
