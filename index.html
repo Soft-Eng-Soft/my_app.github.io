@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>تطبيق عيادة الأسنان</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="date-display" id="txtdate"></div>
+            <div class="theme-toggle" id="theme-toggle">
+                <i class="fas fa-sun" id="theme-icon"></i>
+                <span id="theme-text">الوضع الفاتح</span>
+            </div>
+            <h1>عيادة الأسنان</h1>
+            <div class="subtitle">ENG Soft Dental Clinic</div>
+        </div>
+        
+        <div class="content">
+            <div class="error-message" id="error"></div>
+            
+            <div class="fire-config" id="fireconn">
+                <div class="section-title">إعدادات النظام</div>
+                <div class="form-group">
+                    <label for="ProjectID">معرف المشروع (Project ID)</label>
+                    <input type="text" id="ProjectID" class="form-txtID" placeholder="أدخل معرف المشروع">
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-block" id="btnvaseID" onclick="saveID()">حفظ الإعدادات</button>
+                </div>
+            </div>
+            
+            <div class="appointments-list" id="mydiv">
+                <div class="section-title">قائمة الحجز اليوم</div>
+                <!-- Appointments will be dynamically added here -->
+            </div>
+            
+            <div class="form-container">
+                <div class="section-title">حجز موعد جديد</div>
+                
+                <div class="alert" id="success-message">تم إرسال حجزك بنجاح!</div>
+                
+                <div class="form-group">
+                    <label for="name">الاسم الكامل</label>
+                    <input type="text" id="name" class="form-control" placeholder="أدخل الاسم">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">رقم الهاتف</label>
+                    <input type="tel" id="phone" class="form-control" placeholder="أدخل رقم الهاتف">
+                </div>
+                
+                <div class="form-group">
+                    <label for="slctime">وقت الحجز</label>
+                    <div class="custom-select">
+                        <select id="slctime" class="form-control">
+                            <option value="0">1:00 PM</option>
+                            <option value="1">1:30 PM</option>
+                            <option value="2">2:00 PM</option>
+                            <option value="3">2:30 PM</option>
+                            <option value="4">3:00 PM</option>
+                            <option value="5">3:30 PM</option>
+                            <option value="6">4:00 PM</option>
+                            <option value="7">4:30 PM</option>
+                            <option value="9">5:00 PM</option>
+                            <option value="10">5:30 PM</option>
+                            <option value="11">6:00 PM</option>
+                            <option value="12">6:30 PM</option>
+                            <option value="13">7:00 PM</option>
+                            <option value="14">7:30 PM</option>        
+                            <option value="15">8:00 PM</option>
+                            <option value="16">8:30 PM</option>
+                            <option value="17">9:00 PM</option>
+                            <option value="18">9:30 PM</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-block" id="btnsubmt" onclick="Save_Name()">حجز الموعد</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <button class="btn btn-add" id="btnconn" onclick='showfire()'>
+        
+        <i class="fas fa-cog"></i>
+    </button>
+    
+    <script src="myscripts.js"></script>
+  
+</body>
+</html>
