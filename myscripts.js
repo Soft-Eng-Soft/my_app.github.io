@@ -22,7 +22,7 @@
         function updateThemeToggle(theme) {
             if (theme === 'dark') {
                 themeIcon.className = 'fas fa-moon';
-                themeText.textContent = 'الوضع الداكن';
+                themeText.textContent = 'الوضع المظلم';
             } else {
                 themeIcon.className = 'fas fa-sun';
                 themeText.textContent = 'الوضع الفاتح';
@@ -90,7 +90,43 @@
                 Element.prototype.webkitMatchesSelector;
         }
    
+// popup
 
+// Function to show the new appointment form as a modal
+function showNewAppointmentForm() {
+  document.getElementById("addnewapp").style.display = "block";
+  document.getElementById("modalOverlay").style.display = "block";
+  // Prevent event bubbling to avoid immediate closing
+  document.getElementById("addnewapp").addEventListener("click", function(event) {
+    event.stopPropagation();
+  });
+}
+
+// Function to hide the new appointment form modal
+function hideNewAppointmentForm() {
+  document.getElementById("addnewapp").style.display = "none";
+  document.getElementById("modalOverlay").style.display = "none";
+}
+
+
+// Wrapper function for Save_Name that closes the modal after submission
+function saveAppointmentAndCloseModal() {
+  // Call the original Save_Name function
+  
+  Save_Name();
+  
+  // Close the modal after a short delay to allow the save operation to complete
+  setTimeout(function() {
+    hideNewAppointmentForm();
+  }, 500);
+
+}
+
+
+// type Numeric in Phone
+  document.getElementById("phone").addEventListener('input',function (e){
+    e.target.value = e.target.value.replace(/[^0-9+]/g,'');
+  });
 
 
 
@@ -102,37 +138,20 @@ var update = false;
 var proidshw = false;
 
 
-// type Numeric in Phone
-  document.getElementById("phone").addEventListener('input',function (e){
-    e.target.value = e.target.value.replace(/[^0-9+]/g,'');
-  });
-
 
 window.onload = function () {
 
   var d = new Date();
   tody = d.toISOString().split('T')[0];
 
-//  document.getElementById("txtdate").innerHTML = tody;  
-
- // document.getElementById("ProjectID").style.display = 'none';
-//    document.getElementById("btnvaseID").style.display = 'none';
- 
-
   if (typeof (Storage) !== "undefined") {
 
-   // document.getElementById("ProjectID").style.display = 'none';
-   // document.getElementById("btnvaseID").style.display = 'none';
     document.getElementById("name").style.display = 'flex';
     document.getElementById("phone").style.display = 'flex';
     document.getElementById("slctime").style.display = 'flex';
     document.getElementById("btnsubmt").style.display = 'block';
-
-    document.getElementById("btnconn").style.display = 'block';
-   
- 
-    ProjectID = localStorage.getItem("FirebaseID");   
-   
+    document.getElementById("btnconn").style.display = 'block';   
+    ProjectID = localStorage.getItem("FirebaseID");      
     var baseurl = ProjectID + "/" + tody  + ".json";
 
    removolddate(ProjectID);
@@ -141,14 +160,8 @@ window.onload = function () {
   else{
       document.getElementById("fireconn").style.display = 'flex';
 
-   // document.getElementById("name").style.display = 'none';
-   // document.getElementById("phone").style.display = 'none';
-   // document.getElementById("slctime").style.display = 'none';
-   // document.getElementById("btnsubmt").style.display = 'none';
-
   }
 
- // var baseurl = "https://app-db-df0f1-default-rtdb.asia-southeast1.firebasedatabase.app/Dr-Marthad.json";
   GetName(baseurl);  
 
  
@@ -171,7 +184,6 @@ function saveID() {
 
     GetName(baseurl);
   } else {
-    document.getElementById("error").style.display = 'block';
     document.getElementById("error").innerHTML = "Sorry, your browser does not support Web Storage...";
     }
   
@@ -182,19 +194,13 @@ function showfire(){
 
 if(!proidshw)
 {
-   // alert("Your message here."); 
-  proidshw = true;
+    proidshw = true;
   document.getElementById("ProjectID").value = localStorage.getItem("FirebaseID");
-   document.getElementById("fireconn").style.display = 'block';
-  //  document.getElementById("ProjectID").style.display = 'flex';
-  // document.getElementById("btnvaseID").style.display = 'block'; 
-  // document.getElementById("ProjectID").value = localStorage.getItem("FirebaseID");  
+   document.getElementById("fireconn").style.display = 'block'; 
 }
  else
  {
   document.getElementById("fireconn").style.display = 'none';
-  // document.getElementById("ProjectID").style.display = 'none';
-  // document.getElementById("btnvaseID").style.display = 'none';   
   proidshw = false;
  } 
 }
@@ -216,33 +222,24 @@ for (var k in obj) {
 
   var tdate = new Date(k);
   var tdy = new Date(tody);
-  // console.log(k);
+
   if (tdate < tdy)
   {
     xmlHttp.open("DELETE", Url +"/" + k + ".json", false); // false for synchronous request
     xmlHttp.send(null);
-  // console.log("ok");
   }
   
 }
  }
  catch
  {
-  document.getElementById("error").style.display = 'block';
-document.getElementById("error").innerHTML = "خطأ بالاتصال بالانترنت"
+   document.getElementById("error").style.display = 'block'; 
+    document.getElementById("error").innerHTML = "خطأ الاتصال بالانترنت"
  }
  
-
-  //console.log(Url.replace(ProjectID,""));
 }
 
 
-
-/**
- * Function to fetch and display data from a URL
- * Creates clickable elements with appointment information
- * @param {string} Url - The URL to fetch data from
- */
 function GetName(Url) {
   var xmlHttp = new XMLHttpRequest();
 
@@ -254,32 +251,26 @@ try{
 }
 catch
 {
- // alert("خطأ بالاتصال بالانترنت");
-document.getElementById("error").style.display = 'block';
-document.getElementById("error").innerHTML = "خطأ بالاتصال بالانترنت"
+   document.getElementById("error").style.display = 'block'; 
+  document.getElementById("error").innerHTML = "خطأ الاتصال بالانترنت"
 }
- 
-
-
 
 if (xmlHttp.responseText === "null"){
- // console.log(xmlHttp.responseText);
+//  console.log(xmlHttp.responseText);
   return;
 } 
-
-   // alert(xmlHttp.responseText);
   var obj = JSON.parse(xmlHttp.responseText);
 
-/*
-//   Off line Test
-  var data = '{"محمد":"محمد;5:00 PM;07788","سعد":"سعد;2:00 PM;07778885"}' ;
-  var obj = JSON.parse(data);
-*/
 
+
+//  var data = '{"محمد":"محمد;5:00 PM;078000348","سعد":"سعد;2:00 PM;07701100" , "خالد":"خالد;3:00 PM;07778885"  , "احمد":"احمد;3:00 PM;07900885"}' ;
+  //var data = '{"aaa":"aaa;5:00 PM;078000348","bbb":"bbb;2:00 PM;07701100" , "ccc":"ccc;3:00 PM;07778885"  , "ddd":"ddd;3:00 PM;07900885"}' ;
+// var obj = JSON.parse(data);
+
+ 
   var dv = []
   for (var k in obj) {
     dv.push(k);
-   
   }
 
   var val = []
@@ -294,36 +285,21 @@ if (xmlHttp.responseText === "null"){
     mydv.removeChild(mydv.lastChild);
   }
 
- for (let i = 0; i < val.length ; i++) {
-   if (val[i] !== null)
-   {
-      val[i] = val[i].replace(':','');
-   }
-
- }
-val.sort();
- // val.sort(function(a, b){return b - a});
+  var hiary =[];
   
-  var appary = new Array();
-  var nameary = new Array();
-  var phonary = new Array();
-
-
   for (let i = 0; i < val.length ; i++) {
     if (val[i] !== null)
     {
-
-      var myary = (val[i]).split(";");
-      nameary.push(myary[0]);
-      appary.push(myary[1]);      
-      phonary.push(myary[2]);
-    
-    }    
+      var myary = (val[i]).split(";");    
+      hiary.push(myary);  
+    } 
+     
   }
 
+     const sortedArray = sortArrayByTime(hiary);
 
 
-  for (let i = 0; i < nameary.length; i++) {
+     for (let i = 0; i < sortedArray.length; i++) {      
 
     const button = document.createElement('button');
     button.setAttribute('class', 'appointment-button');
@@ -331,20 +307,14 @@ val.sort();
     const nameElement = document.createElement('span');
     const timeElement = document.createElement('span');
 
-    nameElement.setAttribute('class', 'appointment-name');
-    var aptm="";
-
+    nameElement.setAttribute('class', 'appointment-name');  
     timeElement.setAttribute('class', 'appointment-time');
 
- aptm= appary[i].replace("00", ":00");
-    aptm = aptm.replace("30", ":30");
-   
-
-    nameElement.innerHTML = nameary[i];
-    timeElement.innerHTML = aptm;
+    nameElement.innerHTML = (sortedArray[i][0]);
+    timeElement.innerHTML = (sortedArray[i][1]);
 
 
- button.id = parseInt(dv[i], 10) + 1;
+   button.id = parseInt(dv[i], 10) + 1;
   
     // Create a container for the appointment elements
     const container = document.createElement('div');
@@ -360,39 +330,38 @@ val.sort();
     container.appendChild(timeElement);
     
     // Add container to the button
-    button.appendChild(container);
-
-  
-    button.title = phonary[i];
-
+    button.appendChild(container);  
+    button.title = (sortedArray[i][2]);
 
     button.addEventListener('click', event => {
 
       update = true;    
-      var timeValue = event.currentTarget.querySelector('.appointment-time').innerHTML;
-      var nameValue = event.currentTarget.querySelector('.appointment-name').innerHTML;
-      var phoneValue = event.currentTarget.title;
+      var appid = event.currentTarget.querySelector('.appointment-time').innerHTML;
+      var nm = event.currentTarget.querySelector('.appointment-name').innerHTML;
+      var phn = event.currentTarget.title;
       
       // Set the time in the slctime select element
       const slctimeSelect = document.getElementById("slctime");
-      const formattedTime = timeValue.replace(":", "");
+      const formattedTime = appid.replace(":", "");
       
       // Find and select the matching option
       for (let i = 0; i < slctimeSelect.options.length; i++) {
-        if (slctimeSelect.options[i].text === timeValue) {
+        if (slctimeSelect.options[i].text === appid) {
           slctimeSelect.selectedIndex = i;
           break;
         }
       }
-     document.getElementById("name").value = nameValue;
-     document.getElementById("phone").value =  phoneValue;
+
+     // document.getElementById("slctime").value = appid;
+     document.getElementById("name").value = nm;
+     document.getElementById("phone").value =  phn;
     document.getElementById("name").setAttribute('readonly', true);
+    showNewAppointmentForm();
    // document.getElementById("phone").setAttribute('readonly', true);
     
     });
 
     mydv.appendChild(button);
-
     var mybr = document.createElement('br');
     mydv.appendChild(mybr);
 
@@ -401,20 +370,46 @@ val.sort();
 
 }
 
+
+
+            // Function to convert time string to minutes
+            function convertToMinutes(timeStr) {
+             // console.log(timeStr);
+                const [time, modifier] = timeStr.split(' ');
+                let [hours, minutes] = time.split(':').map(Number);
+                
+                if (modifier === 'PM' && hours !== 12) {
+                    hours += 12;
+                } else if (modifier === 'AM' && hours === 12) {
+                    hours = 0;
+                }
+               //  console.log(hours * 60 + minutes);
+                return hours * 60 + minutes;
+            }
+            
+            // Sort the array by time
+            function sortArrayByTime(arr) {
+                return [...arr].sort((a, b) => {
+                    return convertToMinutes(a[1]) - convertToMinutes(b[1]);
+                });
+            }
+
+
+
  async function Save_Name(){
-
- document.getElementById("name").removeAttribute('readonly');
-    document.getElementById("phone").removeAttribute('readonly');
-
-  if(!update)
-  {
+  update = false;
+  
  var name = document.getElementById("name").value.replace(';','');
+
+ if (name === "")
+  { return; }
+ 
   var phone = document.getElementById("phone").value;
   var tim = document.getElementById("slctime");
   var tmval = tim.options[tim.selectedIndex].text;
 
 var data = name + ";" +  tmval + ";" + phone.replace(';','') ;
-//  alert(data);
+
 var baseurl = ProjectID  + "/" + tody  + "/";
 
   var xmlhttp = new XMLHttpRequest();
@@ -427,45 +422,12 @@ var baseurl = ProjectID  + "/" + tody  + "/";
     }
   }
 
-  xmlhttp.open("PUT", baseurl +  name + ".json", true);
-  xmlhttp.setRequestHeader('Content-type', 'text/plain;');
- xmlhttp.send("\"" + data + "\"");
-
-  }
-
- else
- {
-  update = false;
-  // document.getElementById("btndelet").style.display = 'none';
-
-   var name = document.getElementById("name").value.replace(';','');
-  var phone = document.getElementById("phone").value;
-  var tim = document.getElementById("slctime");
-  var tmval = tim.options[tim.selectedIndex].text;
-
-var data = tmval + ";" + name + ";" + phone.replace(';','') ;
-
-var baseurl = ProjectID  + "/" + tody  + "/";
+   xmlhttp.open("PUT", baseurl +  name + ".json", true);
+   xmlhttp.setRequestHeader('Content-type', 'text/plain;');
+   xmlhttp.send("\"" + data + "\"");
 
 
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.statusText !== "OK") {
-      document.getElementById("error").innerHTML = "Invalid Firebase Project ID.";
-    } else {
-      document.getElementById("error").innerHTML = "";
-  
-    }
-  }
-   
-  xmlhttp.open("PUT", baseurl +  name + ".json", true);
-  xmlhttp.setRequestHeader('Content-type', 'text/plain;');
- xmlhttp.send("\"" + data + "\"");
-
-
- }
-
-let delayres = await delay(2000);
+let delayres = await delay(3000);
 
 var nurl = ProjectID  + "/" + tody  + ".json";
 
@@ -480,46 +442,3 @@ var nurl = ProjectID  + "/" + tody  + ".json";
 const delay = (delayInms) => {
   return new Promise(resolve => setTimeout(resolve, delayInms));
 };
-
-
-
-
-async function Delete_Name(){
- 
-update = false;
-   document.getElementById("btndelet").style.display = 'none';
-
-var baseurl = ProjectID  + "/" + tody  + "/";
-
-//console.log(tmval);
-
- // var baseurl = "https://app-db-df0f1-default-rtdb.asia-southeast1.firebasedatabase.app/Dr-Marthad/" ;
-
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.statusText !== "OK") {
-      document.getElementById("error").innerHTML = "Invalid Firebase Project ID.";
-    } else {
-      document.getElementById("error").innerHTML = "";
-     // GetState(baseurl + ".json");
-    }
-  }
-   
-  xmlhttp.open("DELETE", baseurl +  btnid + ".json", true);
-  xmlhttp.setRequestHeader('Content-type', 'text/plain;');
- xmlhttp.send();
-
-
-
-let delayres = await delay(2000);
-
- //var nurl = "https://app-db-df0f1-default-rtdb.asia-southeast1.firebasedatabase.app/Dr-Marthad.json";
-// document.getElementById("error").innerHTML = baseurl + ".json";
-var nurl = ProjectID  + "/" + tody  + ".json";
-
-
- document.getElementById("name").value = "";
- document.getElementById("phone").value = "";
- 
- GetName(nurl);  
-}
