@@ -280,10 +280,14 @@ if (xmlHttp.responseText === "null"){
 
 
   const mydv = document.getElementById('mydiv'); 
-
+ const mydvtitle = document.getElementById('mydivtitle');
+  
   while(mydv.firstChild){
     mydv.removeChild(mydv.lastChild);
   }
+
+mydv.appendChild(mydvtitle);
+
 
   var hiary =[];
   
@@ -442,3 +446,4 @@ var nurl = ProjectID  + "/" + tody  + ".json";
 const delay = (delayInms) => {
   return new Promise(resolve => setTimeout(resolve, delayInms));
 };
+
