@@ -1,3 +1,28 @@
+// reload GetName
+ var _baseurl = "";
+         // Auto-refresh GetName function every 60 seconds
+        let appointmentRefreshInterval;
+        
+        function startAppointmentRefresh() {
+            // Clear any existing interval
+            clearInterval(appointmentRefreshInterval);
+            
+            // Set up interval to refresh GetName function every 60 seconds
+            appointmentRefreshInterval = setInterval(() => {
+                if (typeof GetName === 'function') {
+                    GetName(_baseurl);
+                }
+            }, 60000); // 60 seconds = 60000 milliseconds
+        }
+        
+        // Start the initial interval
+        startAppointmentRefresh();
+        
+        // Optional: Reset interval on user activity to avoid interrupting user
+        function resetAppointmentRefresh() {
+            startAppointmentRefresh();
+        }
+        
 
         // Theme toggle functionality appointments-list
         const themeToggle = document.getElementById('theme-toggle');
@@ -152,7 +177,7 @@ window.onload = function () {
     document.getElementById("btnsubmt").style.display = 'block';
     document.getElementById("btnconn").style.display = 'block';   
     ProjectID = localStorage.getItem("FirebaseID");      
-    var baseurl = ProjectID + "/" + tody  + ".json";
+    _baseurl = ProjectID + "/" + tody  + ".json";
 
    removolddate(ProjectID);
 
@@ -162,7 +187,7 @@ window.onload = function () {
 
   }
 
-  GetName(baseurl);  
+  GetName(_baseurl);  
 
  
 }
